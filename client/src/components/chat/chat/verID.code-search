@@ -1,0 +1,37 @@
+# Query: verID
+# ContextLines: 1
+
+10 results - 4 files
+
+client\src\components\chat\chat\ChatBox.jsx:
+  26              console.log(person.sub); 
+  27:             let data = await getConversation({ senderId: account.sub, recieverId: person.sub });
+  28              console.log(data);
+
+client\src\components\chat\chat\Messages.jsx:
+  30                  senderId : account.sub,
+  31:                 recieverId : person.sub,
+  32                  //conversationId : 
+
+client\src\components\chat\Menu\Conversation.jsx:
+  35          setPerson(user);
+  36:         await setConversation({ senderId: account.sub, recieverId: user.sub });
+  37      }
+
+server\controller\conversation-controller.js:
+   6        const senderId =request.body.senderId;
+   7:       const recieverId = request.body.recieverId;
+   8  
+   9:       const exist = await Conversation.findOne({members: {$all: [recieverId,senderId]}});
+  10        if(exist)
+
+  14        const newConversation = new Conversation({
+  15:         members: [senderId,recieverId]
+  16      });
+
+  28      const senderId =request.body.senderId;
+  29:     const recieverId = request.body.recieverId;
+  30  
+  31      try {
+  32:         let conversation = await Conversation.findOne({ members: { $all: [recieverId,senderId] }});
+  33          response.status(200).json(conversation);
